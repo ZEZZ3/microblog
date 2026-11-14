@@ -1,4 +1,3 @@
-
 # syntax=docker/dockerfile:1.4
 
 FROM python:3.8-alpine
@@ -18,6 +17,9 @@ RUN <<-EOF
 EOF
 
 ENV FLASK_APP=microblog.py
+
+ARG APP_VERSION=unknown
+ENV APP_VERSION=${APP_VERSION}
 
 RUN <<-EOF
     chmod +x boot.sh
