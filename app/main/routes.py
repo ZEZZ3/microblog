@@ -9,6 +9,10 @@ from app.models import User, Post, utcnow
 from app.main import bp
 
 
+@bp.route('/version')
+def version():
+    """Return the application version."""
+    return current_app.config['APP_VERSION']
 
 @bp.before_request
 def before_request():

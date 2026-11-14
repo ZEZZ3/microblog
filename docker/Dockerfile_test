@@ -1,0 +1,25 @@
+
+# syntax=docker/dockerfile:1.4
+
+FROM python:3.8-alpine
+
+WORKDIR /microblog
+
+RUN apk add --no-cache make=4.4.1-r2
+
+COPY requirements requirements
+
+RUN <<-EOF
+    python -m venv .venv
+    .venv/bin/pip install -r requirements/test.txt
+EOF
+
+ENV PATH="/microblog/.venv/bin:$PATH"
+ENV PYTHONDONTWRITEBYTECODE=1
+
+COPY Makefile pytest.ini .pylintrc .coveragerc ./
+COPY docker/test.sh ./test.sh
+
+RUN chmod +x test.sh
+
+ENTRYPOINT ["./test.sh"]
